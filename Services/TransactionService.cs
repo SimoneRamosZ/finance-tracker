@@ -31,5 +31,28 @@ public class TransactionService : ITransactionService
 
         return await _repository.Add(transaction);  
     }
+
+    public async Task<Transaction?> Update(int id, UpdateTransactionDto dto)
+    {
+        var transaction = await _repository.GetById(id);
+        if (transaction == null) return null;
+
+        transaction.Description = dto.Description;
+        transaction.Amount = dto.Amount;
+        transaction.Date = dto.Date;
+        transaction.Type = dto.Type;
+
+        await _repository.Update(transaction);
+        return transaction;
+    }
+
+    public async Task<bool> Delete(int id)
+    {
+        var transaction = await _repository.GetById(id);
+        if (transaction == null) return false;
+
+        await _repository.Delete(transaction);
+        return true;
+    }
 }
 

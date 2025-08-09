@@ -18,10 +18,25 @@ public class TransactionRepository : ITransactionRepository
         return await _context.Transactions.ToListAsync();
     }
 
+    public async Task<Transaction?> GetById(int id) =>
+       await _context.Transactions.FindAsync(id);
+
     public async Task<Transaction> Add(Transaction transaction)
     {
         _context.Transactions.Add(transaction);
         await _context.SaveChangesAsync();
         return transaction;
+    }
+
+    public async Task Update(Transaction transaction)
+    {
+        _context.Transactions.Update(transaction);
+        await _context.SaveChangesAsync();
+    }
+
+    public async Task Delete(Transaction transaction)
+    {
+        _context.Transactions.Remove(transaction);
+        await _context.SaveChangesAsync();
     }
 }
